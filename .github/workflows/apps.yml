@@ -63,6 +63,9 @@ jobs:
             android-logcat.txt
 
   ios:
+    # macOS runners were not available for this account, so the iPhone build runs only on request
+    # (Actions tab -> "Build apps" -> Run workflow).
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     runs-on: macos-latest
     timeout-minutes: 40
     steps:

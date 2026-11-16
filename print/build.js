@@ -16,8 +16,24 @@ const VENUES = {
   "elderly":   { t1: "داروی عزیزان‌تان را", gold: "درست", t2: "بدهید", sub: "برای سالمندان و مراقبان‌شان",
                  k: "دوربین گوشی را<br>روی <span>این کد</span> بگیرید", p: "با نوشته‌های درشت و ساده،<br>طریقه‌ی مصرف هر دارو را ببینید." },
 };
+// One-line headline for the 10 cm desk QR sticker.
+const TILE = {
+  pharmacy: "داروی‌تان را <b>درست</b> مصرف کنید",
+  doctor:   "نسخه‌تان را <b>درست</b> مصرف کنید",
+  clinic:   "به بیمارتان <b>درست</b> دارو بدهید",
+  elderly:  "داروی عزیزان‌تان را <b>درست</b> بدهید",
+};
 
 const CSS = `
+/* ---- 100x100 mm desk QR sticker, 2mm bleed ---- */
+.tile{position:relative;width:104mm;height:104mm;overflow:hidden;background:var(--ink)}
+.tile .ph{position:absolute;inset:0;background:url(${DIR}/photo-print.jpg) 30% 40%/auto 100% no-repeat;opacity:.4}
+.tile .ph::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%,rgba(13,10,7,.5),var(--ink) 80%)}
+.tile .t-in{position:absolute;inset:7mm;display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center}
+.tile .h{font-size:13.5pt;font-weight:700;color:#fff;line-height:1.35;text-shadow:0 .4mm 2mm #000}.tile .h b{color:var(--gold)}
+.tile .qr{width:56mm;height:56mm;padding:3mm}
+.tile .s{font-size:9.5pt;font-weight:700;color:var(--gold2);line-height:1.5}
+.tile .m{font-size:6.5pt;color:#a99d86;line-height:1.5;margin-top:.6mm;font-weight:400}
 @font-face{font-family:V;src:url(${DIR}/../fonts/Vazirmatn-Regular.woff2);font-weight:400}
 @font-face{font-family:V;src:url(${DIR}/../fonts/Vazirmatn-Bold.woff2);font-weight:700}
 @page{margin:0}
@@ -77,11 +93,16 @@ const card = () => `<div class="card"><div class="ph"></div><div class="c-in">${
 <div class="s">کد را اسکن کنید و طریقه‌ی مصرف<br>هر دارو را ساده و فارسی ببینید.</div>
 <div class="m">رایگان · به یاد داروخانه‌ی آذربایجان</div></div></div></div>`;
 
+const tile = (k) => `<div class="tile"><div class="ph"></div><div class="t-in">
+<div class="h">${TILE[k]}</div>${QR}
+<div class="s">دوربین گوشی را روی کد بگیرید<div class="m">رایگان · بدون نصب · به یاد داروخانه‌ی آذربایجان</div></div></div></div>`;
+
 // name, html, page width/height in mm (bleed included)
 const JOBS = [
   ...Object.entries(VENUES).map(([k, v]) => [`stand-A5-${k}`, stand(v), 154, 216]),
   ["poster-A4-waiting-room", stand(VENUES.clinic, 303 / 216), 216, 303],
   ["card-90x50", card(), 94, 54],
+  ...Object.keys(TILE).map((k) => [`qr-sticker-10cm-${k}`, tile(k), 104, 104]),
 ];
 
 (async () => {

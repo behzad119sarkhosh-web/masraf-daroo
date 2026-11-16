@@ -1,0 +1,58 @@
+plugins { id "com.android.application" }
+
+// The web app (repo root) is copied into the APK so it works fully offline.
+def webRoot = rootProject.file("..")
+def webOut = layout.buildDirectory.dir("generated/web")
+
+tasks.register("copyWebApp", Copy) {
+    from(webRoot) {
+        include "index.html", "manifest.webmanifest", "sw.js", "*.png", "splash.jpg", "fonts/*.woff2"
+    }
+    into webOut.map { it.dir("www") }
+}
+
+android {
+    namespace "ir.masrafdaroo.app"
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "ir.masrafdaroo.app"
+        minSdk 24
+        targetSdk 35
+        versionCode((System.getenv("GITHUB_RUN_NUMBER") ?: "1") as int)
+        versionName "1.0." + (System.getenv("GITHUB_RUN_NUMBER") ?: "0")
+    }
+
+    signingConfigs {
+        // A fixed key kept in the repo so every build can install over the previous one.
+        // Replace with a private key (stored as a GitHub secret) before publishing to a store.
+        shared {
+            storeFile file("masraf-daroo.keystore")
+            storePassword "masrafdaroo"
+            keyAlias "masrafdaroo"
+            keyPassword "masrafdaroo"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.shared
+        }
+    }
+
+    sourceSets {
+        main { assets.srcDir(webOut) }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+tasks.named("preBuild") { dependsOn "copyWebApp" }
+
+dependencies {
+    implementation "androidx.webkit:webkit:1.12.1"
+}

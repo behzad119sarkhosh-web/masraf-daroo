@@ -94,6 +94,13 @@ ol.steps li:last-child::after{display:none}
 .gen{margin:.8rem 0;padding:.8rem 1rem;border-radius:12px;background:#eef6f3;border:1px solid #cfe3dc;line-height:1.9}.gen p{margin:.2rem 0}
 .pics-w{margin:22px 0}.pics-h{font-size:1.15rem;margin:0 0 6px}.pics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:8px}.pic{position:relative;margin:0;background:#fff;color:#10282e;border:2px solid var(--line);border-radius:14px;padding:8px 8px 10px;text-align:center}.pic svg{display:block;width:100%;height:auto}.pic figcaption{font-weight:700;font-size:1rem;line-height:1.6;margin-top:4px}.pn{position:absolute;top:6px;right:6px;width:28px;height:28px;border-radius:50%;background:#0b6e7a;color:#fff;display:grid;place-items:center;font-weight:700;font-size:.95rem}.say{margin:4px 0}
 .ded{clear:both;margin:10px 0 14px;padding:14px 16px;border-radius:12px;background:linear-gradient(135deg,rgba(201,162,39,.16),rgba(11,110,122,.14));border:1px solid rgba(201,162,39,.55);text-align:center;line-height:2}.ded p{margin:0;font-size:1rem;color:inherit}.ded b{color:#c9a227}.ded .me{margin-top:10px;padding-top:10px;border-top:1px dashed rgba(201,162,39,.45);font-style:italic}.ded .who{margin-top:4px;font-size:.9rem}.ded .sg{margin-top:6px;font-size:.85rem;color:var(--mute)}
+.inst{display:flex;align-items:center;gap:12px;width:100%;margin:6px 0 14px;padding:12px 14px;font:inherit;text-align:right;color:var(--ink);background:var(--sur);border:2px solid var(--acc);border-radius:14px;cursor:pointer}
+.inst[hidden]{display:none}.inst img{width:44px;height:44px;border-radius:10px;flex:none}.inst b{display:block;color:var(--acc)}.inst small{display:block;color:var(--mute);font-size:.85rem;line-height:1.6}
+.isheet{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;justify-content:center}.isheet[hidden]{display:none}
+.isheet>div{width:100%;max-width:520px;max-height:90vh;overflow:auto;background:var(--bg);color:var(--ink);border-radius:20px 20px 0 0;padding:20px 18px calc(18px + env(safe-area-inset-bottom,0px))}
+.isheet h2{margin:0 0 6px;font-size:1.2rem}.isheet ol{margin:10px 0;padding:0 22px 0 0}.isheet li{margin:8px 0}.isheet .ic{display:inline-block;vertical-align:middle;width:22px;height:22px;margin:0 3px;color:var(--acc)}
+.isheet .k{display:inline-block;padding:0 8px;border-radius:6px;background:var(--sur);border:1px solid var(--line);font-weight:700}
+.isheet .x{width:100%;margin-top:10px}.isheet .tip{font-size:.9rem;color:var(--mute)}
 </style>
 </head>
 <body>
@@ -103,6 +110,8 @@ ol.steps li:last-child::after{display:none}
 <div class="ded"><p>این اپلیکیشن، صدای اعتراض یک داروساز است در دفاع از حقوق استادش، <b>دکتر یزدانشناس</b>؛<br>تا نام و یاد <b>داروخانه‌ی آذربایجان تبریز</b> همیشه در خانه‌ها و دل‌های شما بماند.</p><p class="me">«تابلوها را می‌توان پایین کشید و نام‌ها را از سردرها برداشت؛<br>اما آنچه نیم‌قرن با خدمت و شرافت در حافظه‌ی یک شهر نوشته شده،<br>هرگز از یاد تاریخ پاک نخواهد شد.»</p><p class="who">— <b>دکتر بهزاد سرخوش</b>، شاگرد استاد</p><p class="sg">— به پاس نیم‌قرن خدمت به مردم و داروسازی ایران</p></div>
 <h1>طریقه‌ی درست مصرف دارو</h1>
 <p class="lead">نام دارو یا شکل دارویی را بنویسید، یا از فهرست الفبایی زیر انتخاب کنید؛ فقط روش درست مصرف را می‌بینید.</p>
+<button class="inst" id="inst" type="button" hidden><img src="icon-192.png" alt=""><span><b>نصب روی گوشی</b><small>مثل یک برنامه روی صفحه‌ی گوشی، حتی بدون اینترنت</small></span></button>
+<div class="isheet" id="isheet" hidden role="dialog" aria-modal="true" aria-labelledby="ih"><div><h2 id="ih">نصب روی گوشی</h2><div id="ibody"></div><button class="go x" id="iclose" type="button">متوجه شدم</button></div></div>
 <p class="notice">این نسخه در حال تکمیل و ارتقاست. اگر داروی مورد نظرتان را پیدا نکردید، هنوز به فهرست اضافه نشده است و داروهای بیشتری به‌زودی اضافه می‌شوند. در این میان، شکل دارویی آن (قرص، شربت، قطره، اسپری، شیاف، کرم) را جستجو کنید تا روش مصرف کلی آن را ببینید.</p>
 <div id="app"></div>
 <p class="note">این راهنما جایگزین نسخه‌ی پزشک و توضیح داروساز نیست. اگر برگه‌ی راهنمای داروی شما چیز دیگری می‌گوید، همان را دنبال کنید.</p>
@@ -535,6 +544,43 @@ function start(){
 sp.addEventListener("pointerdown",function(){if(!started)start()});
 if(window.speechSynthesis){speechSynthesis.onvoiceschanged=function(){if(!started&&!tried){tried=true;start()}}}
 setTimeout(function(){if(!started&&!tried){tried=true;start()}},700);
+})();
+</script>
+<script>
+(function(){
+var btn=document.getElementById("inst"),sh=document.getElementById("isheet"),body=document.getElementById("ibody");
+if(!btn)return;
+var ua=navigator.userAgent||"";
+// Already installed, or running inside the Android/iPhone app: no button.
+if(location.protocol==="file:"||location.hostname==="appassets.androidplatform.net"||navigator.standalone||(window.matchMedia&&matchMedia("(display-mode: standalone)").matches))return;
+var ios=/iPhone|iPad|iPod/.test(ua)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+var android=/Android/.test(ua);
+var inApp=/Instagram|FBAN|FBAV|Telegram|WhatsApp|Line\/|; wv\)/.test(ua);
+var iosSafari=ios&&!/CriOS|FxiOS|EdgiOS|OPiOS/.test(ua)&&!inApp;
+var deferred=null;
+var share='<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="دکمه‌ی اشتراک"><path d="M12 3v12M7 8l5-5 5 5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>';
+var plus='<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8v8M8 12h8"/></svg>';
+var dots='<svg class="ic" viewBox="0 0 24 24" fill="currentColor" aria-label="منوی سه‌نقطه"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>';
+function guide(){
+ if(inApp)return '<p>این صفحه داخل یک برنامه‌ی دیگر (مثل تلگرام یا اینستاگرام) باز شده و از این‌جا نصب نمی‌شود.</p><ol><li>از منوی همین صفحه '+dots+' گزینه‌ی <span class="k">باز کردن در مرورگر</span> را بزنید.</li><li>'+(ios?'در <b>سافاری</b>':'در <b>کروم</b>')+' دوباره دکمه‌ی «نصب روی گوشی» را بزنید.</li></ol>';
+ if(ios&&!iosSafari)return '<p>برای نصب روی آیفون، این صفحه را در <b>سافاری</b> باز کنید.</p><ol><li>نشانی صفحه را کپی کنید و در سافاری باز کنید.</li><li>دوباره دکمه‌ی «نصب روی گوشی» را بزنید.</li></ol>';
+ if(ios)return '<ol><li>پایین (یا بالای) صفحه، دکمه‌ی اشتراک '+share+' را بزنید.</li><li>کمی پایین بروید و <span class="k">Add to Home Screen</span> '+plus+' را بزنید (به فارسی: «افزودن به صفحه‌ی اصلی»).</li><li>بالا سمت راست، <span class="k">Add</span> را بزنید.</li></ol><p class="tip">آیکون «مصرف دارو» روی صفحه‌ی گوشی می‌آید و بعد از یک بار باز کردن، بدون اینترنت هم کار می‌کند.</p>';
+ if(android)return '<ol><li>بالای صفحه، منوی '+dots+' را بزنید.</li><li><span class="k">Install app</span> یا <span class="k">Add to Home screen</span> را بزنید (به فارسی: «نصب برنامه» یا «افزودن به صفحه‌ی اصلی»).</li><li><span class="k">Install</span> یا <span class="k">Add</span> را تأیید کنید.</li></ol><p class="tip">اگر این گزینه را ندیدید، صفحه را در <b>کروم</b> باز کنید.</p>';
+ return '<p>نشانی این صفحه را روی گوشی باز کنید و دکمه‌ی «نصب روی گوشی» را بزنید.</p>';
+}
+function open(){body.innerHTML=guide();sh.hidden=false;document.getElementById("iclose").focus()}
+function close(){sh.hidden=true;btn.focus()}
+btn.onclick=function(){
+ if(deferred){var d=deferred;deferred=null;d.prompt();d.userChoice.then(function(r){if(r&&r.outcome==="accepted")btn.hidden=true})["catch"](function(){});return}
+ open();
+};
+document.getElementById("iclose").onclick=close;
+sh.onclick=function(e){if(e.target===sh)close()};
+addEventListener("keydown",function(e){if(e.key==="Escape"&&!sh.hidden)close()});
+addEventListener("beforeinstallprompt",function(e){e.preventDefault();deferred=e;btn.hidden=false});
+addEventListener("appinstalled",function(){btn.hidden=true;sh.hidden=true});
+// Phones get the button with instructions; desktops only if the browser offers install.
+if(ios||android)btn.hidden=false;
 })();
 </script>
 <script>

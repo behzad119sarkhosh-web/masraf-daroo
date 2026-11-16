@@ -1,6 +1,6 @@
 // Offline support: cache the app shell, serve it when there is no network.
 // Bump VERSION whenever any of these files change so users get the update.
-const VERSION = "v2";
+const VERSION = "v3";
 const CACHE = "masraf-daroo-" + VERSION;
 const FILES = [
   "./",

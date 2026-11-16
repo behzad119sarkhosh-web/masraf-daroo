@@ -63,7 +63,8 @@ jobs:
             android-logcat.txt
 
   ios:
-    runs-on: macos-15
+    runs-on: macos-latest
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
 
@@ -110,7 +111,9 @@ jobs:
             ios-screen.png
 
   release:
+    # Publish whenever Android passed; the iPhone file is attached if its build passed too.
     needs: [android, ios]
+    if: ${{ !cancelled() && needs.android.result == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
@@ -124,6 +127,7 @@ jobs:
           body: |
             **اندروید:** فایل `masraf-daroo.apk` را روی گوشی دانلود و نصب کنید.
             **آیفون:** فایل `masraf-daroo.ipa` را با Sideloadly یا AltStore نصب کنید (یا سایت را در Safari باز کرده و Add to Home Screen بزنید).
+          fail_on_unmatched_files: false
           files: |
             android/masraf-daroo.apk
             ios/masraf-daroo.ipa

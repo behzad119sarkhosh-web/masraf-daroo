@@ -2,3 +2,7 @@
 build/
 app/build/
 local.properties
+
+# Signing keys must never be committed
+*.keystore
+*.jks

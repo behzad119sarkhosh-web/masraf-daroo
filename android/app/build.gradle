@@ -23,21 +23,25 @@ android {
         versionName "1.0." + (System.getenv("GITHUB_RUN_NUMBER") ?: "0")
     }
 
+    // Release signing key comes from GitHub Secrets (see .github/workflows/apps.yml).
+    // Never commit a keystore: anyone holding it can publish "updates" of this app.
+    // Without the secrets (e.g. a local build) the APK is debug-signed and is not published.
+    def releaseKeystore = System.getenv("ANDROID_KEYSTORE_FILE")
     signingConfigs {
-        // A fixed key kept in the repo so every build can install over the previous one.
-        // Replace with a private key (stored as a GitHub secret) before publishing to a store.
-        shared {
-            storeFile file("masraf-daroo.keystore")
-            storePassword "masrafdaroo"
-            keyAlias "masrafdaroo"
-            keyPassword "masrafdaroo"
+        if (releaseKeystore) {
+            upload {
+                storeFile file(releaseKeystore)
+                storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
+                keyAlias System.getenv("ANDROID_KEY_ALIAS")
+                keyPassword System.getenv("ANDROID_KEY_PASSWORD")
+            }
         }
     }
 
     buildTypes {
         release {
             minifyEnabled false
-            signingConfig signingConfigs.shared
+            signingConfig releaseKeystore ? signingConfigs.upload : signingConfigs.debug
         }
     }
 

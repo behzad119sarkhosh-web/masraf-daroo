@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="fa" dir="rtl"><head><meta charset="utf-8"><title>استند داروخانه</title>
+<style>
+@font-face{font-family:V;src:url(../fonts/Vazirmatn-Regular.woff2);font-weight:400}
+@font-face{font-family:V;src:url(../fonts/Vazirmatn-Bold.woff2);font-weight:700}
+/* A5 + 3mm bleed each side */
+@page{size:154mm 216mm;margin:0}
+:root{--ink:#0d0a07;--gold:#d4b06a;--gold2:#f1dca8;--teal:#0b6e7a;--cream:#f6eedd}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--ink)}
+body{font-family:V;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page{position:relative;width:154mm;height:216mm;overflow:hidden;background:var(--ink);color:var(--cream)}
+.hero{position:absolute;inset:0 0 auto 0;height:118mm;background:url(photo-print.jpg) 22% 40%/auto 100% no-repeat}
+.hero::after{content:"";position:absolute;inset:0;background:
+ linear-gradient(to bottom,rgba(13,10,7,.55) 0,rgba(13,10,7,0) 22%,rgba(13,10,7,0) 48%,rgba(13,10,7,.85) 82%,var(--ink) 100%)}
+/* safe area = 3mm bleed + 7mm margin */
+.in{position:absolute;inset:10mm;display:flex;flex-direction:column;align-items:center;text-align:center}
+.tag{font-size:8.5pt;letter-spacing:.3mm;color:var(--gold2);border:.3mm solid rgba(212,176,106,.7);border-radius:20mm;padding:1mm 4.5mm;background:rgba(13,10,7,.45)}
+.title{margin-top:57mm;font-size:27pt;font-weight:700;line-height:1.35;color:#fff;text-shadow:0 .6mm 3mm rgba(0,0,0,.7)}
+.title b{color:var(--gold)}
+.rule{display:flex;align-items:center;gap:3mm;margin:2.5mm 0 0;color:var(--gold);font-size:9pt}
+.rule::before,.rule::after{content:"";width:16mm;height:.3mm;background:linear-gradient(to left,transparent,var(--gold))}
+.rule::after{background:linear-gradient(to right,transparent,var(--gold))}
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:3mm;width:100%;margin-top:5.5mm}
+.f{border:.3mm solid rgba(212,176,106,.35);border-radius:3mm;padding:3mm 1.5mm 2.5mm;background:rgba(255,255,255,.035)}
+.f svg{width:8mm;height:8mm;stroke:var(--gold);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.f div{font-size:9.5pt;font-weight:700;margin-top:1mm;line-height:1.5}
+.f small{display:block;font-size:7.5pt;font-weight:400;color:#bfb29a;line-height:1.5}
+.qrrow{display:flex;align-items:center;gap:6mm;margin-top:6mm;width:100%}
+.qr{flex:none;width:46mm;height:46mm;background:#fff;border-radius:4mm;padding:3mm;box-shadow:0 0 0 .8mm var(--gold),0 0 0 2mm rgba(212,176,106,.25)}
+.qr img{width:100%;height:100%;display:block}
+.cta{flex:1;text-align:right}
+.cta .k{font-size:15pt;font-weight:700;color:#fff;line-height:1.45}
+.cta .k span{color:var(--gold)}
+.cta p{margin:2mm 0 0;font-size:9pt;color:#cfc3ab;line-height:1.7}
+.cta .pill{display:inline-block;margin-top:2.5mm;font-size:8.5pt;font-weight:700;background:var(--teal);color:#fff;border-radius:20mm;padding:1mm 4mm}
+.foot{margin-top:auto;font-size:6.8pt;color:#8f8573;line-height:1.7}
+.foot b{color:#bfb29a;font-weight:400}
+</style></head><body>
+<div class="page">
+ <div class="hero"></div>
+ <div class="in">
+  <div class="tag">به یاد داروخانه‌ی آذربایجان · تبریز</div>
+  <div class="title">داروی‌تان را<br><b>درست</b> مصرف کنید</div>
+  <div class="rule">راهنمای ساده و فارسی مصرف دارو</div>
+  <div class="feats">
+   <div class="f"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div>کِی بخورم؟</div><small>زمان و فاصله‌ی مصرف</small></div>
+   <div class="f"><svg viewBox="0 0 24 24"><rect x="3" y="9" width="18" height="6" rx="3" transform="rotate(-45 12 12)"/><path d="M9.2 9.2l5.6 5.6"/></svg><div>چطور بخورم؟</div><small>با غذا، ناشتا، قدم‌به‌قدم</small></div>
+   <div class="f"><svg viewBox="0 0 24 24"><path d="M12 3l9.5 17h-19z"/><path d="M12 10v4.5M12 17.3v.2"/></svg><div>مراقب باشم</div><small>نکته‌ها و هشدارها</small></div>
+  </div>
+  <div class="qrrow">
+   <div class="qr"><img src="../qr/qr.svg" alt=""></div>
+   <div class="cta">
+    <div class="k">دوربین گوشی را<br>روی <span>این کد</span> بگیرید</div>
+    <p>نام داروی‌تان را جست‌وجو کنید و<br>طریقه‌ی درست مصرفش را ببینید.</p>
+    <span class="pill">رایگان · بدون نصب برنامه</span>
+   </div>
+  </div>
+  <div class="foot"><b>این راهنما جایگزین توصیه‌ی پزشک و داروساز نیست.</b><br>behzad119sarkhosh-web.github.io/masraf-daroo</div>
+ </div>
+</div>
+</body></html>
